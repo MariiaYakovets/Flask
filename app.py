@@ -1,17 +1,15 @@
-from flask import Flask, render_template, url_for
-import random
+from flask import Flask, render_template, redirect
 
-app = Flask('app.py')
+app = Flask('Application')
+
+@app.route("/login", methods = ["GET", "POST"])
+def login():
+    return render_template('login.html')
 
 @app.route("/")
-def start():
-    return render_template('index.html')
+def main():
+    return redirect("/login")
 
-@app.route("/cat")
-def cat():
-    n_cat = random.randint(1,10)
-    return render_template('cat.html', n_cat = n_cat)
-
-@app.route("/cat/<number>")
-def cat_two(number):
-    return render_template("cat_number.html", cat_num = number)
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('unknown_page.html')
