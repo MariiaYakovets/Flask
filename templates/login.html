@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Fill the log in form</h1>
-    <form method="post">
-        <input type="text" placeholder="username" name="username">
-        <input type="password" placeholder="password" name="password">
-        <button type="submit">Submit</button>
-    </form>
-    <script>
-        
-    </script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<h1>Fill the log in form</h1>
+		<form method="post">
+			<input type="text" placeholder="username" id="username" />
+			<input type="password" placeholder="password" id="password" />
+			<button type="submit">Submit</button>
+		</form>
+		<script>
+			// javascript
+			// создание переменной, которая хранит в себе html елемент форму
+			const form = document.querySelector("form");
+			// на форму добавляем обработчик события отправки формы
+			form.addEventListener("submit", (event) => {
+				// отменяем отправку пост запросы формы по нажатию на кнопку
+				event.preventDefault();
+				// получение полей авторизации
+				const usernameInput = document.querySelector("#username");
+				const passwordInput = document.querySelector("#password");
+                // условие на наличие ввода - ака валидация
+				if (usernameInput.value != "" && passwordInput.value != "") {
+					// свой отправитель запросов (пост по логин)
+					fetch("/login", {
+						method: "post",
+						body: JSON.stringify({
+							username: usernameInput.value,
+							password: passwordInput.value,
+						}),
+                        // указываем, что данные тип json
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+					});
+				}
+			});
+		</script>
+	</body>
 </html>
